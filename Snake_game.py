@@ -73,7 +73,13 @@ for i in range(1,5):
     monsters.add(monster)
 
     bullets = sprite.Group()'''
+score = 0
+font.init()
+font1 = font.SysFont('Arial', 36)
+font2 = font.SysFont('Arial', 56)
 
+win = font2.render("YYOU WIN!", True, (225, 255, 255))
+lose = font2.render('YOU LOSE!', True, (100, 0, 0))
 while run:
     for e in event.get():
         if e.type == QUIT:
@@ -83,14 +89,20 @@ while run:
         window.blit(background,(0, 0))
 
         if sprite.collide_rect(snake, apple):
+            score+= 1
             apple.kill()
             apple = Enemy('apple.png', randint(0, 300), randint(0, 300), 2,65,65)
+        if snake.rect.x == 640 or snake.rect.x == 0 or snake.rect.y == 0 or snake.rect.y == 440:
+            finish = True
+            window.blit(lose, (200,200))
+
 
         snake.update()
         snake.reset()
         apple.update()
         apple.reset()
+        text_lose2 = font2.render('Счёт: ' + str(score), 1, (255,255,255))
+        window.blit(text_lose2, (10,20))
         display.update()
 
     clock.tick(FPS)
-
